@@ -1,0 +1,38 @@
+body
+	{
+		min-width: 240px;
+		margin: 0px;
+	}
+
+.button
+	{
+		float: left;
+		text-align: center;
+		padding: 13px 6px;
+		border-color: darkgrey;
+		border-style: solid;
+		color: grey;
+	}
+
+.right
+	{
+		float: right;
+	}
+
+.banner
+	{
+		background-color: lightgrey;
+	}
+
+.header
+	{
+		max-height: 50px;
+		height: 50px;
+	}
+
+.pop
+	{
+		height: 100px;
+		text-align: center;
+		display: block;
+	}
