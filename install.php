@@ -1,33 +1,34 @@
 <?php
 
-	$DB_DSN = 'sqlite:'.dirname(__FILE__).'/db.sqlite';
-	$DB_USER = admin;
-	$DB_PASSWORD = admin;
+	include_once 'DSNclass.php';
 
-	try
+	if ($argv[1] == 'drop')
 	{
-    	$conn = new PDO ($DB_DSN, $DB_USER, $DB_PASSWORD);
-    	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    	echo "Connection to database established";
- 	}
-	catch(PDOException $e)
-    {
-    	echo "Connection to SQLite database failed".$e->getMessage();
-    	die();
-    }
+		shell_exec ("rm -rf db.sqlite");
+		echo "Database droped\n";
+		exit ();
+	}
 
-	$sql = 'CREATE TABLE user (
+	$newDSN = new DSNclass ();
+
+	$sql = 'CREATE TABLE IF NOT EXISTS users(
 			id			INTEGER	PRIMARY KEY AUTOINCREMENT,
 			login		TEXT	NOT NULL,
 			password	TEXT	NOT NULL,
 			mail		TEXT	NOT NULL,
 			active		BOOLEAN NOT NULL,
-			KEY			TEXT	NOT NULL,
+			KEY			TEXT			,
 			admin		BOOLEAN	NOT NULL
 			)';
 
-	$conn->query($sql);
+	$newDSN::$conn->query($sql);
 
-	$conn = NULL;
+	$sql = 'CREATE TABLE IF NOT EXISTS pictures(
+			id			INTEGER	PRIMARY KEY AUTOINCREMENT,
+			url			TEXT	NOT NULL,
+			owner		INTEGER	NOT NULL
+			)';
+
+	$newDSN::$conn->query($sql);
 
 ?>

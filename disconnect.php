@@ -2,11 +2,11 @@
 
 	session_start ();
 
-	$_SESSION['userActive'] = FALSE;
+	session_unset();
 
-	include ("fooder.php");
+	session_destroy();
 
-	$conn = null;
+	include "fooder.php";
 
 ?>
 
@@ -16,9 +16,12 @@
 		<title>Disconected</title>
 	</head>
 	<body>
+		<br />
 		<div class="pop">
 			Successfully disconnected
+			<br />
+			<br />
+			<a href="index.php">HOME</a>
 		</div>
-		<a class="pop" href="index.php">HOME</a>
 	</body>
 </html>

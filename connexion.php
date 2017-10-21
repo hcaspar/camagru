@@ -8,10 +8,13 @@
 	</head>
 	<body>
 		<form class="pop" action="get_user.php" method="post"><br />
-			<input type="text" name="enterLogin" value="Login" /><br />
-			<input type="text" name="enterPass" value="Password" /><br />
-			<input type="submit" name="submit" value="Submit"/><br />
+			<input type="text" name="login" value="Login" /><br />
+			<input type="password" name="pass" value="Password" /><br />
+			<input type="submit" name="submit" value="Submit" /><br />
+			<br />
+			<a href="register.php">Register</a>
+			<br>
+			<a href="forgot_pass.php">Forgot password</a>
 		</form>
-		<a class="pop" href="register.php">Register</a>
 	</body>
 </html>

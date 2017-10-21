@@ -2,7 +2,12 @@
 
 	session_start();
 
-	include "db_connect.php";
+	include_once 'DSNclass.php';
+
+	$newDSN = new DSNclass ();
+	if (!$newDSN->TableExists ('users'))
+		die ;
+
 ?>
 
 <!DOCTYPE html>
@@ -15,11 +20,12 @@
 	<body>
 		<div class="banner header">
 			<a href="index.php"><div class="button">HOME</div></a>
-			<div class="button">PROFILE</div>
 			<?php if ($_SESSION['userActive']): ?>
-					<a href="disconnect.php"><div class="button right">SIGN OUT</div></a>
+				<a href="profile.php"><div class="button">PROFILE</div></a>
+				<a href="studio.php"><div class="button">STUDIO</div></a>
+				<a href="disconnect.php"><div class="button right">SIGN OUT</div></a>
 			<?php else: ?>
-					<a href="connexion.php"><div class="button right">SIGN IN</div></a>
+				<a href="connexion.php"><div class="button right">SIGN IN</div></a>
 			<?php endif; ?>
 		</div>
 	</body>

@@ -2,20 +2,35 @@
 
 	session_start ();
 
-	include "db_connect.php";
+	include 'DSNclass.php';
 
-	$sql = "SELECT login, password FROM user
-			WHERE login='$_POST[enterLogin]' AND password='$_POST[enterPass]'";
+	$newPreDSN = new DSNclass ();
+	if (!$newPreDSN->TableExists ('users'))
+		die ;
 
-	$sth = $conn->prepare($sql);
-	$sth->execute();
+	$pwd = hash ('whirlpool', $_POST['pass']);
 
-	$res = $sth->fetchAll();
+	$sql = "SELECT login, password, active FROM users
+			WHERE login == :login AND password == :pass";
 
-	$conn = NULL;
+	$sth = $newPreDSN::$conn->prepare($sql);
+	$sth->execute(array (	':login' => $_POST['login'],
+ 							':pass' => $pwd));
 
-	if ($res)
+	$res = $sth->fetch();
+
+	$newPreDSN::$conn = NULL;
+
+	if (!$res)
+		$msg = "Wrong login or password";
+	else if ($res['active'] == 0)
+		$msg = "Account not active";
+	else
+	{
 		$_SESSION['userActive'] = TRUE;
+		$_SESSION['user'] = $_POST['login'];
+		$msg = 'Connected';
+	}
 
 	include 'fooder.php';
 
@@ -28,13 +43,13 @@
 	</head>
 	<body>
 		<div class="pop">
+			<br />
 			<?php
-				if ($res)
-					echo "Connected";
-				else
-					echo "Wrong login or password";
+				echo $msg;
 			?>
+			<br />
+			<br />
+			<a href="index.php">HOME</a>
 		</div>
-		<a class="pop" href="index.php">HOME</a>
 	</body>
 </html>
